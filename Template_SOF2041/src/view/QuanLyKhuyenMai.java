@@ -36,14 +36,12 @@ public class QuanLyKhuyenMai extends javax.swing.JFrame {
         
         lst = kmsv.getAllKhuyenMai();
         model = (DefaultTableModel) tblHienThi.getModel();
-        
-        
-        
-        
-        loatDataKM(lst);
-        
-        
 
+        loatDataKM(lst);
+        lstCTKM = ctkmsv.getAllChiTietKhuyenMai();
+        modelCTKM = (DefaultTableModel) tblCTKM.getModel();
+       loatCTKM(lstCTKM);
+        
     }
     public void loatDataKM(ArrayList<KhuyenMai> lstKM) {
         model.setRowCount(0);
@@ -60,9 +58,9 @@ public class QuanLyKhuyenMai extends javax.swing.JFrame {
     }
 
     public void loatCTKM(ArrayList<ChiTietKhuyenMai> lstCTKMM){
-        model.setRowCount(0);
+        modelCTKM.setRowCount(0);
         for (ChiTietKhuyenMai ctkm : lstCTKMM) {
-            model.addRow(new Object[]{
+            modelCTKM.addRow(new Object[]{
                 ctkm.getID(),
                 ctkm.getID_SP(),
                 ctkm.getID_KM(),
@@ -313,9 +311,7 @@ public class QuanLyKhuyenMai extends javax.swing.JFrame {
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
-        lstCTKM = ctkmsv.getAllChiTietKhuyenMai();
-        modelCTKM = (DefaultTableModel) tblCTKM.getModel();
-       loatCTKM(lstCTKM);
+        
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     /**
