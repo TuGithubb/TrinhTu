@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import model.Oto;
+import model.SanPham;
 
 /**
  *
@@ -17,15 +17,15 @@ import model.Oto;
  */
 public class OtoDao {
     
-    public List<Oto> getAll() {
+    public List<SanPham> getAll() {
        String sql = "select ID, ID_Hang, Ma_SP, Ten, Gia_Ban,Gia_Nhap,Mo_Ta,Trang_Thai from San_Pham";
-        List<Oto> lst = new ArrayList<>();
+        List<SanPham> lst = new ArrayList<>();
         try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
              ResultSet rs = ps.executeQuery();
-             List<Oto> List = new ArrayList<>();
+             List<SanPham> List = new ArrayList<>();
             while (rs.next()) {
-                Oto ot
-                        = new Oto(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),
+                SanPham ot
+                        = new SanPham(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),
                         rs.getDouble(5),rs.getDouble(6),rs.getString(7),rs.getString(8));
                 lst.add(ot);
             }
@@ -36,7 +36,7 @@ public class OtoDao {
         }
     }
     
-    public boolean add(Oto ot) {
+    public boolean add(SanPham ot) {
         int check = 0;
         String query = """
                    insert into San_Pham(ID, ID_Hang, Ma_SP, Ten, Gia_Ban,Gia_Nhap,Mo_Ta,Trang_Thai)values(?,?,?,?,?,?,?,?)
@@ -59,7 +59,7 @@ public class OtoDao {
         return check > 0;
     }
     
-    public boolean update(Oto ot, int Id) {
+    public boolean update(SanPham ot, int Id) {
         int check = 0;
         String query = """
                    update San_Pham set ID_Hang = ?, Ma_SP = ?,  Ten = ?, Gia_Ban =?, Gia_Nhap = ?,Mo_Ta =?, Trang_Thai = ? where ID = ?

@@ -8,7 +8,7 @@ package model;
  *
  * @author ADMIN
  */
-public class Oto {
+public class SanPham {
 
     private int ID;
     private int IDHang;
@@ -19,7 +19,7 @@ public class Oto {
     private String MoTa;
     private String TrangThai;
 
-    public Oto() {
+    public SanPham() {
     }
 
     public int getID() {
@@ -86,7 +86,7 @@ public class Oto {
         this.TrangThai = TrangThai;
     }
     
-    public Oto(int ID, int IDHang, String MaSP, String tenXe, double giaBan, double giaNhap, String MoTa, String TrangThai) {
+    public SanPham(int ID, int IDHang, String MaSP, String tenXe, double giaBan, double giaNhap, String MoTa, String TrangThai) {
         this.ID = ID;
         this.IDHang = IDHang;
         this.MaSP = MaSP;
