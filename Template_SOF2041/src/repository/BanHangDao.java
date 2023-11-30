@@ -11,7 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.CTHoaDon;
+import model.HoaDon;
 import model.SanPham;
+import model.hoaDon1;
 
 /**
  *
@@ -75,6 +77,45 @@ public class BanHangDao {
         }
     }
 
+    public List<hoaDon1> getHoaDon() {
+        String sql = "select ID,ID_User, ID_Khach_Hang,Ngay_Tao,Ma_HD,Trang_Thai,Thong_Tin_Giao_Hang from Hoa_Don";
+        List<hoaDon1> list = new ArrayList<>();
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            List<hoaDon1> List = new ArrayList<>();
+            while (rs.next()) {
+                hoaDon1 hd
+                        = new hoaDon1(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getDate(4), rs.getString(5), rs.getString(6));
+                list.add(hd);
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
+    public boolean addHoaDon(hoaDon1 hd) {
+        int check = 0;
+        String query = """
+                     INSERT INTO Hoa_Don
+                                        (ID,ID_User,ID_Khach_Hang,Ngay_Tao,Ma_HD,Trang_Thai)
+                                                                VALUES(?,?,?,?,?,?);
+                     """;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+
+            ps.setObject(1, hd.getId());
+            ps.setObject(2, hd.getIdUser());
+            ps.setObject(3, hd.getIdKhachHang());
+            ps.setObject(4, hd.getNgayTao());
+            ps.setObject(5, hd.getMaHD());
+            ps.setObject(6, hd.getTrangThai());
+            check = ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
 
 }
