@@ -9,31 +9,42 @@ package model;
  * @author user
  */
 public class CTHoaDon {
+
     private int id;
     private int idHoaDon;
     private int idCTKM;
     private int idCTSP;
     private String maHD;
+    private String maSP;
     private double gia;
     private int sl;
     private double tongTien;
-    private String loaiThanhToan;
 
     public CTHoaDon() {
     }
 
-    public CTHoaDon(int id, int idHoaDon, int idCTKM, int idCTSP, String maHD, double gia, int sl, double tongTien, String loaiThanhToan) {
+    public CTHoaDon(int id, int idHoaDon, int idCTKM, int idCTSP, String maHD, String maSP, double gia, int sl, double tongTien) {
         this.id = id;
         this.idHoaDon = idHoaDon;
         this.idCTKM = idCTKM;
         this.idCTSP = idCTSP;
         this.maHD = maHD;
+        this.maSP = maSP;
         this.gia = gia;
         this.sl = sl;
         this.tongTien = tongTien;
-        this.loaiThanhToan = loaiThanhToan;
     }
 
+    public CTHoaDon(int id, String maSP, double gia, int sl, double tongTien) {
+        this.id = id;
+        this.maSP = maSP;
+        this.gia = gia;
+        this.sl = sl;
+        this.tongTien = tongTien;
+    }
+    
+    
+    
     public int getId() {
         return id;
     }
@@ -74,6 +85,14 @@ public class CTHoaDon {
         this.maHD = maHD;
     }
 
+    public String getMaSP() {
+        return maSP;
+    }
+
+    public void setMaSP(String maSP) {
+        this.maSP = maSP;
+    }
+
     public double getGia() {
         return gia;
     }
@@ -96,14 +115,6 @@ public class CTHoaDon {
 
     public void setTongTien(double tongTien) {
         this.tongTien = tongTien;
-    }
-
-    public String getLoaiThanhToan() {
-        return loaiThanhToan;
-    }
-
-    public void setLoaiThanhToan(String loaiThanhToan) {
-        this.loaiThanhToan = loaiThanhToan;
     }
     
     

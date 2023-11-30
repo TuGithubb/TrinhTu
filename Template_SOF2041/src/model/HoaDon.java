@@ -4,82 +4,87 @@
  */
 package model;
 
-import java.util.Date;
-
 /**
  *
- * @author user
+ * @author ADMIN
  */
 public class HoaDon {
-    private int id ;
-    private int idUser ;
-    private int idKhachHang ;
-    private Date ngayTao;
-    private String MaHD;
-    private String trangThai;
+
+    private int ID, IDUser, IDKhachHang;
+    private String ngayTao, maHD;
+    private boolean trangThai;
+    private String thongTinGiaoHang;
 
     public HoaDon() {
     }
-    
-    
 
-    public HoaDon(int id, int idUser, int idKhachHang, Date ngayTao, String MaHD, String trangThai) {
-        this.id = id;
-        this.idUser = idUser;
-        this.idKhachHang = idKhachHang;
+    public HoaDon(int ID, int IDUser, int IDKhachHang, String ngayTao, String maHD, boolean trangThai, String thongTinGiaoHang) {
+        this.ID = ID;
+        this.IDUser = IDUser;
+        this.IDKhachHang = IDKhachHang;
         this.ngayTao = ngayTao;
-        this.MaHD = MaHD;
+        this.maHD = maHD;
         this.trangThai = trangThai;
+        this.thongTinGiaoHang = thongTinGiaoHang;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public int getIDUser() {
+        return IDUser;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setIDUser(int IDUser) {
+        this.IDUser = IDUser;
     }
 
-    public int getIdKhachHang() {
-        return idKhachHang;
+    public int getIDKhachHang() {
+        return IDKhachHang;
     }
 
-    public void setIdKhachHang(int idKhachHang) {
-        this.idKhachHang = idKhachHang;
+    public void setIDKhachHang(int IDKhachHang) {
+        this.IDKhachHang = IDKhachHang;
     }
 
-    public Date getNgayTao() {
+    public String getNgayTao() {
         return ngayTao;
     }
 
-    public void setNgayTao(Date ngayTao) {
+    public void setNgayTao(String ngayTao) {
         this.ngayTao = ngayTao;
     }
 
     public String getMaHD() {
-        return MaHD;
+        return maHD;
     }
 
-    public void setMaHD(String MaHD) {
-        this.MaHD = MaHD;
+    public void setMaHD(String maHD) {
+        this.maHD = maHD;
     }
 
-    public String getTrangThai() {
+    public boolean isTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(String trangThai) {
+    public void setTrangThai(boolean trangThai) {
         this.trangThai = trangThai;
     }
-    
-    
-    
+
+    public String getThongTinGiaoHang() {
+        return thongTinGiaoHang;
+    }
+
+    public void setThongTinGiaoHang(String thongTinGiaoHang) {
+        this.thongTinGiaoHang = thongTinGiaoHang;
+    }
+
+    public Object[] toDataRow() {
+        return new Object[]{this.ID, this.IDKhachHang, this.IDUser, this.maHD, this.ngayTao, this.trangThai == true ? "Đã Thanh Toán" : "Chưa Thanh Toán", this.thongTinGiaoHang};
+    }
 }
