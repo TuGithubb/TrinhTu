@@ -4,27 +4,44 @@
  */
 package view;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.CTHoaDon;
 import model.SanPham;
 import repository.BanHangDao;
+import repository.DBConnect;
 
 /**
  *
  * @author user
  */
 public class BanHang extends javax.swing.JFrame {
-    
-    List<SanPham> list = new ArrayList<>();
+
+    List<SanPham> listSP = new ArrayList<>();
     DefaultTableModel modelSP = new DefaultTableModel();
-    BanHangDao dao =new BanHangDao();
+
+    List<CTHoaDon> listCTHD = new ArrayList<>();
+    DefaultTableModel modelCTHD = new DefaultTableModel();
+
+    BanHangDao dao = new BanHangDao();
+
     /**
      * Creates new form BanHang
      */
     public BanHang() {
         initComponents();
-        
+
+        modelSP = (DefaultTableModel) tblSanPham.getModel();
+        listSP = dao.getSanPham();
+        showDataTable_SanPham(listSP);
+
+        modelCTHD = (DefaultTableModel) tblCTHoaDon.getModel();
+        modelCTHD.setRowCount(0);
     }
 
     /**
@@ -52,22 +69,27 @@ public class BanHang extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Sản Phẩm"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Sản Phẩm"));
 
         tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "ID Hãng", "Mã SP", "Tên", "Giá Bán", "Giá Nhập", "Mô Tả", "Trạng Thái"
+                "ID", "ID Hãng", "Mã SP", "Tên", "Giá Bán", "Mô Tả", "Trạng Thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSanPhamMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblSanPham);
@@ -84,29 +106,34 @@ public class BanHang extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Chi Tiết Hoá Đơn"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Chi Tiết Hoá Đơn"));
 
         tblCTHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "ID Hoá Đơn", "ID CTKM", "ID CTSP", "Ma HD", "Ma SP", "Giá", "Số Lượng", "Tổng Tiền"
+                "ID", "Ma SP", "Giá", "Số Lượng", "Tổng Tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblCTHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCTHoaDonMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblCTHoaDon);
@@ -127,7 +154,7 @@ public class BanHang extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Hoá Đơn"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Hoá Đơn"));
 
         tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,7 +193,7 @@ public class BanHang extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Thanh Toán"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Thanh Toán"));
 
         jLabel1.setText("ID :");
 
@@ -215,7 +242,7 @@ public class BanHang extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,11 +255,31 @@ public class BanHang extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            int row = tblSanPham.getSelectedRow();
+            int sl = Integer.parseInt(JOptionPane.showInputDialog(this, "Nhap So Luong", "Input", JOptionPane.DEFAULT_OPTION));
+            if(sl > getsl()){
+            JOptionPane.showMessageDialog(this, "So Luong San Pham Lon Hon San Pham Ton Kho");
+            }else{
+            listCTHD = dao.getCTHoaDon(listSP.get(row).getMaSP());
+            showDataTable_CTHD(listCTHD, sl);
+            }
+
+        }
+
+    }//GEN-LAST:event_tblSanPhamMouseClicked
+
+    private void tblCTHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCTHoaDonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblCTHoaDonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -285,6 +332,30 @@ public class BanHang extends javax.swing.JFrame {
     private javax.swing.JTable tblSanPham;
     // End of variables declaration//GEN-END:variables
 
-    
+    private void showDataTable_SanPham(List<SanPham> listSanPhams) {
+        modelSP.setRowCount(0);
+        listSanPhams.forEach(s -> modelSP.addRow(new Object[]{s.getID(), s.getIDHang(), s.getMaSP(), s.getTenXe(), s.getGiaBan(), s.getMoTa(), s.getTrangThai()}));
+    }
 
+    private void showDataTable_CTHD(List<CTHoaDon> listCTDH, int sl) {
+
+        listCTDH.forEach(s -> modelCTHD.addRow(new Object[]{s.getId(), s.getMaSP(), s.getGia() + " vnd", sl, (s.getGia() * sl) + " vnd"}));
+    }
+
+    private int getsl() { 
+        int row = tblSanPham.getSelectedRow();
+        int id = listSP.get(row).getID();
+        String query1 = "select So_Luong_SP from Kho_Hang where ID_SP =?";
+        int sl = -1;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(query1)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                sl = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sl;
+    }
 }
