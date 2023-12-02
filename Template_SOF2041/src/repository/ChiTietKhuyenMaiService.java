@@ -21,7 +21,6 @@ public class ChiTietKhuyenMaiService {
         ArrayList<ChiTietKhuyenMai> lstCTKM = new ArrayList<>();
         String sql = "select * from Chi_Tiet_Khuyen_Mai";
 
-        
         //Tạo kết nối
         Connection cn = DBConnect.getConnection();
         try {
@@ -48,5 +47,83 @@ public class ChiTietKhuyenMaiService {
             System.out.println(ex);
         }
         return lstCTKM;
+    }
+
+    public Integer addChiTietKhuyenMai(ChiTietKhuyenMai ctkm) {
+        Integer row = null;
+        String sql = "INSERT INTO Chi_Tiet_Khuyen_Mai (ID, ID_SP, ID_KM, Ma_KM, Hinh_Thuc, Gia_Tri, So_Luong, DK_Ap_Dung)\n"
+                + "VALUES (?,?,?,?,?,?,?,?)";
+        //Tạo kết nối
+        Connection cn = DBConnect.getConnection();
+        try {
+            //Tạo statement
+            PreparedStatement pstm = cn.prepareStatement(sql);
+            //Gán giá trị cho dấu ?
+            pstm.setInt(1, ctkm.getID());
+            pstm.setInt(2, ctkm.getID_SP());
+            pstm.setInt(3, ctkm.getID_KM());
+            pstm.setString(4, ctkm.getMaKM());
+            pstm.setString(5, ctkm.getHinhThuc());
+            pstm.setDouble(6, ctkm.getGiaTri());
+            pstm.setInt(7, ctkm.getSoLuong());
+            pstm.setString(8, ctkm.getDK_Ap_Dung());
+
+            //thi hành Statement
+            row = pstm.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return row;
+    }
+
+    public Integer updateChiTietKhuyenMai(ChiTietKhuyenMai ctkm) {
+        Integer row = null;
+        String sql = "update CHi_Tiet_Khuyen_Mai\n"
+                + "set ID_SP =?, ID_KM=?, Ma_KM=?, Hinh_Thuc = ?, Gia_Tri = ?, So_Luong = ?, DK_Ap_Dung = ? "
+                + "where id like ?";
+        //Tạo kết nối
+        Connection cn = DBConnect.getConnection();
+        try {
+            //Tạo statement
+            PreparedStatement pstm = cn.prepareStatement(sql);
+            //Gán giá trị cho dấu ?
+
+            pstm.setInt(2, ctkm.getID_SP());
+            pstm.setInt(3, ctkm.getID_KM());
+            pstm.setString(4, ctkm.getMaKM());
+            pstm.setString(5, ctkm.getHinhThuc());
+            pstm.setDouble(6, ctkm.getGiaTri());
+            pstm.setInt(7, ctkm.getSoLuong());
+            pstm.setString(8, ctkm.getDK_Ap_Dung());
+            pstm.setInt(1, ctkm.getID());
+            //thi hành Statement
+            row = pstm.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return row;
+    }
+
+    public Integer deleteChiTietKhuyenMai(String ctkm) {
+        Integer row = null;
+        String sql = "delete from Chi_Tiet_Khuyen_Mai\\n\"\n"
+                + "                + \"where id like ?";
+        //Tạo kết nối
+        Connection cn = DBConnect.getConnection();
+        try {
+            //Tạo statement
+            PreparedStatement pstm = cn.prepareStatement(sql);
+            //Gán giá trị cho dấu ?
+            pstm.setString(1, ctkm);
+
+            //thi hành Statement
+            row = pstm.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return row;
     }
 }
