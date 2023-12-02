@@ -43,4 +43,78 @@ public class KhuyenMaiService {
         }
         return lst;
     }
+
+    public Integer addKhuyenMai(KhuyenMai km) {
+        Integer row = null;
+        String sql = "INSERT INTO Khuyen_Mai (ID, Ma_KM, Ten, Trang_Thai, Ngay_Bat_Dau, Ngay_Ket_Thuc)\n"
+                + "VALUES (?,?,?,?,?,?)";
+        //Tạo kết nối
+        Connection cn = DBConnect.getConnection();
+        try {
+            //Tạo statement
+            PreparedStatement pstm = cn.prepareStatement(sql);
+            //Gán giá trị cho dấu ?
+            pstm.setInt(1, km.getID());
+            pstm.setString(2, km.getMaKM());
+            pstm.setString(3, km.getTen());
+            pstm.setString(4, km.getTrangThai());
+            pstm.setString(5, km.getNgayBatDau());
+            pstm.setString(6, km.getNgayKetThuc());
+
+            //thi hành Statement
+            row = pstm.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return row;
+    }
+
+    public Integer updateKhuyenMai(KhuyenMai km) {
+        Integer row = null;
+        String sql = "update Khuyen_Mai\n"
+                + "set Ma_KM=?, Ten=?, Trang_Thai=?, Ngay_Bat_Dau =?, Ngay_Ket_Thuc= ? "
+                + "where ID like ?";
+        //Tạo kết nối
+        Connection cn = DBConnect.getConnection();
+        try {
+            //Tạo statement
+            PreparedStatement pstm = cn.prepareStatement(sql);
+            //Gán giá trị cho dấu ?
+
+            pstm.setString(2, km.getMaKM());
+            pstm.setString(3, km.getTen());
+            pstm.setString(4, km.getTrangThai());
+            pstm.setString(5, km.getNgayBatDau());
+            pstm.setString(6, km.getNgayKetThuc());
+            pstm.setInt(1, km.getID());
+            //thi hành Statement
+            row = pstm.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return row;
+    }
+
+    public Integer deleteKhuyenMai(String km) {
+        Integer row = null;
+        String sql = "delete from Khuyen_Mai\\n\"\n"
+                + "                + \"where ID like ?";
+        //Tạo kết nối
+        Connection cn = DBConnect.getConnection();
+        try {
+            //Tạo statement
+            PreparedStatement pstm = cn.prepareStatement(sql);
+            //Gán giá trị cho dấu ?
+            pstm.setString(1, km);
+
+            //thi hành Statement
+            row = pstm.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return row;
+    }
 }
