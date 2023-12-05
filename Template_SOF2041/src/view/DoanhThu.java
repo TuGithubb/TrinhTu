@@ -45,6 +45,7 @@ public class DoanhThu extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {"ABC123", "03/10/2023", "3000000"},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -57,6 +58,8 @@ public class DoanhThu extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jLabel2.setText("Tìm kiếm theo ngày:");
+
+        jTextField1.setText("03/10/2023");
 
         jButton1.setText("Tìm kiếm");
 
@@ -88,7 +91,7 @@ public class DoanhThu extends javax.swing.JFrame {
 
         jLabel3.setText("Tổng doanh thu ");
 
-        jLabel4.setText("....");
+        jLabel4.setText("3000000");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
